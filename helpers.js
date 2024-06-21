@@ -16,3 +16,7 @@ export function getUserFromLocalStorage() {
 export function removeUserFromLocalStorage() {
     window.localStorage.removeItem('user')
 }
+
+function capitalizeFirstLetter(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}

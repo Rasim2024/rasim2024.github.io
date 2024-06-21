@@ -16,11 +16,18 @@ export function getPosts({ token }) {
             if (response.status === 401) {
                 throw new Error('Нет авторизации')
             }
+            if (response.status === 500) {
+                throw new Error("ошибка сервера");
+              }
             return response.json()
         })
         .then(data => {
             return data.posts
         })
+        .catch((error) => {
+            alert(error);
+            console.warn(error);
+          });  
 }
 
 export function getUserPosts({ token, userId }) {   
@@ -34,11 +41,18 @@ export function getUserPosts({ token, userId }) {
             if (response.status === 401) {
                 throw new Error('Нет авторизации')
             }
+            if (response.status === 500) {
+                throw new Error("ошибка сервера");
+              }
             return response.json()
         })
         .then(data => {
             return data.posts
         })
+        .catch((error) => {
+            alert(error);
+            console.warn(error);
+          });  
 }
 
 export function addPost({ token, description, imageUrl }) {
@@ -52,8 +66,15 @@ export function addPost({ token, description, imageUrl }) {
         if (response.status === 401) {
             throw new Error('Нет авторизации')
         }
+        if (response.status === 500) {
+            throw new Error("ошибка сервера");
+          }
         return response.json()
     })
+    .catch((error) => {
+        alert(error);
+        console.warn(error);
+      });
 }
 
 export function getLikePost({ token, postId, isLiked }) {
@@ -71,15 +92,24 @@ export function getLikePost({ token, postId, isLiked }) {
         },
     })
         .then(response => {
+            if (response.status === 200) {
+                return response.json();
+              }
             if (response.status === 401) {
                 throw new Error('Нет авторизации')
             }
-            return response.json()
+            if (response.status === 500) {
+                throw new Error("ошибка сервера");
+              }
+              return Promise.reject( new Error ("Отсутствует соединение"));
         })
         .then(data => {
             return data.post
         })
-        .catch(error => console.error(error))
+        .catch((error) => {
+            alert(error);
+            console.warn(error);
+          });
 }
 
 export function deletePost({ token, postId }) {
@@ -96,8 +126,15 @@ export function deletePost({ token, postId }) {
         if (response.status === 401) {
             throw new Error('Нет авторизации')
         }
+        if (response.status === 500) {
+            return Promise.reject("ошибка сервера");
+          }
         return response.json()
     })
+    .catch((error) => {
+        alert(error);
+        console.warn(error);
+      });
 }
 
 
@@ -111,11 +148,21 @@ export function registerUser({ login, password, name, imageUrl }) {
             imageUrl,
         }),
     }).then(response => {
+        if (response.status === 200) {
+            return response.json();
+          }
         if (response.status === 400) {
             throw new Error('Такой пользователь уже существует')
         }
-        return response.json()
-    })
+        if (response.status === 500) {
+            throw new Error("ошибка сервера");
+          }
+          return Promise.reject( new Error ("Отсутствует соединение"));
+        })
+        .catch((error) => {
+            alert(error);
+            console.warn(error);
+          });
 }
 
 export function loginUser({ login, password }) {
@@ -126,11 +173,21 @@ export function loginUser({ login, password }) {
             password,
         }),
     }).then(response => {
+        if (response.status === 200) {
+            return response.json();
+          }
         if (response.status === 400) {
             throw new Error('Неверный логин или пароль')
         }
-        return response.json()
+        if (response.status === 500) {
+            throw new Error("ошибка сервера");
+          }
+          return Promise.reject( new Error ("Отсутствует соединение"));
     })
+    .catch((error) => {
+        alert(error);
+        console.warn(error);
+      });
 }
 
 // Загружает картинку в облако, возвращает url загруженной картинки

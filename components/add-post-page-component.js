@@ -59,21 +59,26 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
                 .getElementById('desc-photo')
                 .value.trim()
 
-            if (!imageUrl) {
-                alert('Не выбрана фотография')
-                return
+            try {
+                if (!imageUrl) {
+                    throw new Error('Добавьте фото')
+                }
+                if (!addPostDesc) {
+                    throw new Error('Напишите комментарий к посту')
+                }
+
+                 onAddPostClick({
+                    description: sanitizeHtml(addPostDesc, { allowedTags: [] }),
+                    imageUrl: imageUrl,
+                });
+            } catch (error) {
+                // alert(error.message);
+                console.log(error);
             }
 
-            if (!addPostDesc) {
-                alert('Напишите комментарий к посту')
-                return
-            }
 
-            onAddPostClick({
-                description: sanitizeHtml(addPostDesc, { allowedTags: [] }),
-                imageUrl: imageUrl,
-            })
         })
+
     }
 
     render()
