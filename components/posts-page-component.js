@@ -10,7 +10,7 @@ export function renderPostsPageComponent({
     deletePostClick,
     likePostClick,
 }) {
-    const render = () => {
+    render = () => {
         const appHtml = `
     <div class="page-container">
     <div class="header-container"></div>
@@ -97,5 +97,5 @@ export function renderPostsPageComponent({
         })
     }
 
-    render()
+    
 }
